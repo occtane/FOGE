@@ -30,7 +30,7 @@ int main()
   foge::Vec3 half = v / 2.0f;
   std::cout << "v / 2 = (" << half.x << ", " << half.y << ", " << half.z << ")\n";
 
-  // your helper functions
+  // helper functions
   float len = Magnitude(v);
   foge::Vec3 unit = Normalize(v);
   std::cout << "|v| = " << len << "\n";
