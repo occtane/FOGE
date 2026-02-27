@@ -1,63 +1,92 @@
 #pragma once
 
-struct Vector3D
+namespace foge
 {
-    float x{}, y{}, z{};
-
-    Vector3D() = default;
-    Vector3D(float a, float b, float c) : x(a), y(b), z(c)
+    struct Vec3
     {
+        float x{}, y{}, z{};
+
+        Vec3() = default;
+        Vec3(float a, float b, float c) : x(a), y(b), z(c)
+        {
+        }
+
+        float &operator[](int i)
+        {
+            return ((&x)[i]);
+        }
+
+        const float &operator[](int i) const
+        {
+            return ((&x)[i]);
+        }
+
+        Vec3 &operator*=(float s)
+        {
+            x *= s;
+            y *= s;
+            z *= s;
+            return (*this);
+        }
+
+        Vec3 &operator/=(float s)
+        {
+            s = 1.0F / s;
+            x *= s;
+            y *= s;
+            z *= s;
+            return (*this);
+        }
+
+        Vec3 &operator+=(const Vec3 &v)
+        {
+            x += v.x;
+            y += v.y;
+            z += v.z;
+            return (*this);
+        }
+
+        Vec3 &operator-=(const Vec3 &v)
+        {
+            x -= v.x;
+            y -= v.y;
+            z -= v.z;
+            return (*this);
+        }
+    };
+
+    inline Vec3 operator*(const Vec3 &v, float s)
+    {
+        return (Vec3(v.x * s, v.y * s, v.z * s));
     }
 
-    float &operator[](int i)
+    inline Vec3 operator/(const Vec3 &v, float s)
     {
-        return ((&x)[i]);
+        return (Vec3(v.x / s, v.y / s, v.z / s));
     }
 
-    const float &operator[](int i) const
+    inline Vec3 operator-(const Vec3 &v)
     {
-        return ((&x)[i]);
+        return (Vec3(-v.x, -v.y, -v.z));
     }
 
-    Vector3D &operator*=(float s)
+    inline Vec3 operator+(const Vec3 &a, const Vec3 &b)
     {
-        x *= s;
-        y *= s;
-        z *= s;
-        return (*this);
+        return (Vec3(a.x + b.x, a.y + b.y, a.z + b.z));
     }
 
-    Vector3D &operator/=(float s)
+    inline Vec3 operator-(const Vec3 &a, const Vec3 &b)
     {
-        s = 1.0F / s;
-        x *= s;
-        y *= s;
-        z *= s;
-        return (*this);
+        return (Vec3(a.x - b.x, a.y - b.y, a.z - b.z));
     }
-};
 
-inline Vector3D operator*(const Vector3D &v, float s)
-{
-    return (Vector3D(v.x * s, v.y * s, v.z * s));
-}
+    inline float Magnitude(const Vec3 &v)
+    {
+        return (std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
+    }
 
-inline Vector3D operator/(const Vector3D &v, float s)
-{
-    return (Vector3D(v.x / s, v.y / s, v.z / s));
-}
-
-inline Vector3D operator-(const Vector3D &v)
-{
-    return (Vector3D(-v.x, -v.y, -v.z));
-}
-
-inline float Magnitude(const Vector3D &v)
-{
-    return (std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
-}
-
-inline Vector3D Normalize(const Vector3D &v)
-{
-    return (v / Magnitude(v));
+    inline Vec3 Normalize(const Vec3 &v)
+    {
+        return (v / Magnitude(v));
+    }
 }
